@@ -38,29 +38,32 @@ def barchart_restaurant_categories(db_filename):
     restaurant categories and the values should be the number of restaurants in each category. The function should
     also create a bar chart with restaurant categories and the counts of each category.
     """
-    dict = {}
+    d = {}
     data = get_restaurant_data(db_filename)
     for item in data:
-        if item['category'] not in dict:
-            dict[item['category']] = 1
+        if item['category'] not in d:
+            d[item['category']] = 1
         else:
-            dict[item['category']] += 1
+            d[item['category']] += 1
+    sorted_list = sorted(d.items(), key=lambda x:x[1], reverse=True)
+    print(sorted_list)
+    sorted_dict = dict(sorted_list)
     x = []
-    for item in dict.keys():
+    for item in sorted_dict.keys():
         if ' ' not in item:
             x.append(item)
         else:
             new_item = item.replace(' ', '\n')
             x.append(new_item)
-    y = dict.values()
+    y = sorted(sorted_dict.values(), reverse=True)
     fig = plt.figure(figsize=(160,10))
     ax = fig.add_subplot(111)
     ax.bar(x, y)
-    ax.set_title('Number of restaurants on South U by category')
+    ax.set_title('Types of restaurants on South University Avenue')
     ax.set_xlabel('restaurant categories')
-    ax.set_ylabel('number of restaurants on South U')
+    ax.set_ylabel('number of restaurants')
     plt.show()
-    return dict
+    return sorted_dict
 
 #EXTRA CREDIT
 def highest_rated_category(db_filename):#Do this through DB as well
@@ -74,7 +77,7 @@ def highest_rated_category(db_filename):#Do this through DB as well
 
 #Try calling your functions here
 def main():
-    pass
+    print(barchart_restaurant_categories('South_U_Restaurants.db'))
 
 class TestHW8(unittest.TestCase):
     def setUp(self):
