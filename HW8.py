@@ -9,7 +9,28 @@ def get_restaurant_data(db_filename):
     dictionaries. The key:value pairs should be the name, category, building, and rating
     of each restaurant in the database.
     """
-    pass
+    list = []
+    path = os.path.dirname(os.path.abspath(__file__))
+    conn = sqlite3.connect(path+'/'+db_filename)
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM restaurants')
+    rows = cur.fetchall()
+    for row in rows:
+        q = "SELECT category FROM categories WHERE id = ?"
+        p = (row[2],)
+        cur.execute(q, p)
+        category = cur.fetchone()
+        x = "SELECT building FROM buildings WHERE id = ?"
+        y = (row[3],)
+        cur.execute(x, y)
+        building = cur.fetchone()
+        dict = {}
+        dict['name'] = row[1]
+        dict['category'] = category[0]
+        dict['building'] = building[0]
+        dict['rating'] = row[4]
+        list.append(dict)
+    return list
 
 def barchart_restaurant_categories(db_filename):
     """
@@ -31,7 +52,7 @@ def highest_rated_category(db_filename):#Do this through DB as well
 
 #Try calling your functions here
 def main():
-    pass
+    print(get_restaurant_data('South_U_Restaurants.db'))
 
 class TestHW8(unittest.TestCase):
     def setUp(self):
@@ -70,11 +91,12 @@ class TestHW8(unittest.TestCase):
         self.assertIsInstance(cat_data, dict)
         self.assertEqual(cat_data, self.cat_dict)
         self.assertEqual(len(cat_data), 14)
-
+    '''
     def test_highest_rated_category(self):
         best_category = highest_rated_category('South_U_Restaurants.db')
         self.assertIsInstance(best_category, tuple)
         self.assertEqual(best_category, self.best_category)
+    '''
 
 if __name__ == '__main__':
     main()
