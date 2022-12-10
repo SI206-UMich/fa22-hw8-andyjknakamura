@@ -45,6 +45,21 @@ def barchart_restaurant_categories(db_filename):
             dict[item['category']] = 1
         else:
             dict[item['category']] += 1
+    x = []
+    for item in dict.keys():
+        if ' ' not in item:
+            x.append(item)
+        else:
+            new_item = item.replace(' ', '\n')
+            x.append(new_item)
+    y = dict.values()
+    fig = plt.figure(figsize=(160,10))
+    ax = fig.add_subplot(111)
+    ax.bar(x, y)
+    ax.set_title('Number of restaurants on South U by category')
+    ax.set_xlabel('restaurant categories')
+    ax.set_ylabel('number of restaurants on South U')
+    plt.show()
     return dict
 
 #EXTRA CREDIT
