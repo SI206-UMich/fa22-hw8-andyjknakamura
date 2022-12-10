@@ -41,10 +41,10 @@ def barchart_restaurant_categories(db_filename):
     dict = {}
     data = get_restaurant_data(db_filename)
     for item in data:
-        if item[1] not in dict:
-            dict[item[1]] = 1
+        if item['category'] not in dict:
+            dict[item['category']] = 1
         else:
-            dict[item[1]] += 1
+            dict[item['category']] += 1
     return dict
 
 #EXTRA CREDIT
@@ -59,7 +59,7 @@ def highest_rated_category(db_filename):#Do this through DB as well
 
 #Try calling your functions here
 def main():
-    print(get_restaurant_data('South_U_Restaurants.db'))
+    pass
 
 class TestHW8(unittest.TestCase):
     def setUp(self):
