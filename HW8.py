@@ -38,7 +38,14 @@ def barchart_restaurant_categories(db_filename):
     restaurant categories and the values should be the number of restaurants in each category. The function should
     also create a bar chart with restaurant categories and the counts of each category.
     """
-    pass
+    dict = {}
+    data = get_restaurant_data(db_filename)
+    for item in data:
+        if item[1] not in dict:
+            dict[item[1]] = 1
+        else:
+            dict[item[1]] += 1
+    return dict
 
 #EXTRA CREDIT
 def highest_rated_category(db_filename):#Do this through DB as well
